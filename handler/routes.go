@@ -16,7 +16,17 @@ func (h *Handler) Register(v1 *echo.Group) {
 	user.GET("", h.CurrentUser)
 	user.PUT("", h.UpdateUser)
 
-	profiles := v1.Group("/profiles", jwtMiddleware)
+	profiles := v1.Group("/profiles", middleware.JWTWithConfig(
+		middleware.JWTConfig{
+			Skipper: func(c echo.Context) bool {
+				if c.Request().Method == "GET" && c.Path() != "/api/profiles/:username" {
+					return true
+				}
+				return false
+			},
+			SigningKey: utils.JWTSecret,
+		},
+	))
 	profiles.GET("/:username", h.GetProfile)
 	profiles.POST("/:username/follow", h.Follow)
 	profiles.DELETE("/:username/follow", h.Unfollow)
