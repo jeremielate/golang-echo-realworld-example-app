@@ -1,12 +1,14 @@
 package utils
 
 import (
+	_ "embed"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
 
-var JWTSecret = []byte("!!SECRET!!")
+//go:embed jwt-secret.bin
+var JWTSecret []byte
 
 func GenerateJWT(id uint) string {
 	token := jwt.New(jwt.SigningMethodHS256)

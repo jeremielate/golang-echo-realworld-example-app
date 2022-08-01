@@ -19,10 +19,7 @@ func (h *Handler) Register(v1 *echo.Group) {
 	profiles := v1.Group("/profiles", middleware.JWTWithConfig(
 		middleware.JWTConfig{
 			Skipper: func(c echo.Context) bool {
-				if c.Request().Method == "GET" && c.Path() != "/api/profiles/:username" {
-					return true
-				}
-				return false
+				return c.Request().Method == "GET" && c.Path() == "/api/profiles/:username"
 			},
 			SigningKey: utils.JWTSecret,
 		},
@@ -34,10 +31,7 @@ func (h *Handler) Register(v1 *echo.Group) {
 	articles := v1.Group("/articles", middleware.JWTWithConfig(
 		middleware.JWTConfig{
 			Skipper: func(c echo.Context) bool {
-				if c.Request().Method == "GET" && c.Path() != "/api/articles/feed" {
-					return true
-				}
-				return false
+				return c.Request().Method == "GET" && c.Path() != "/api/articles/feed"
 			},
 			SigningKey: utils.JWTSecret,
 		},
