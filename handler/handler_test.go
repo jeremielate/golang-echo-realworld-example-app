@@ -43,7 +43,7 @@ func setup() {
 	us = store.NewUserStore(d)
 	as = store.NewArticleStore(d)
 	h = NewHandler(us, as)
-	e = router.New()
+	e = router.New("*")
 	loadFixtures()
 }
 

@@ -17,7 +17,7 @@ import (
 func TestListArticlesCaseSuccess(t *testing.T) {
 	tearDown()
 	setup()
-	e := router.New()
+	e := router.New("*")
 	req := httptest.NewRequest(echo.GET, "/api/articles", nil)
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
